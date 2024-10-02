@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Bottle Opener Sales</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    </head>
+    <body class="p-3 m-auto">
+        <div class="d-flex row m-auto">
+            <div class="d-flex col-xl-6 align-items-center">
+                <label for="time-period" class="my-0">Time Period</label>
+                <select id="time-period" class="ml-2" onchange="showProduct()">
+                    <option value="yearly">Yearly</option>
+                    <option value="monthly">Monthly</option>
+                </select>
+            </div> 
+            <div class="d-flex col-xl-5 justify-content-around align-items-center">
+                <div class="d-flex">
+                    <label for="date-from" class="my-0">Date from:</label>
+                    <input type="date" id="date-from" name="date-from" class="ml-2" onchange="showProduct()">
+                </div>
+                <div class="d-flex">
+                    <label for="date-to" class="my-0">Date to:</label>
+                    <input type="date" id="date-to" name="date-to" class="ml-2" onchange="showProduct()">
+                </div>
+            </div>
+        </div>
+        <div class="d-flex row mx-auto mt-5">
+            <div class="col-12">
+                <h1 class="text-center" id="header">Bottle Opener Yearly Sales Chart</h1>
+            </div>
+        </div>
+        <div class="d-flex row mx-auto mt-2">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="d-flex">
+                    <form id="upload-form" enctype="multipart/form-data">
+                        <input type="file" id="csv-file" accept=".csv" class="d-none" />
+                        <button type="button" class="text-center rounded p-2" id="choose-product">Choose Product</button>
+                    </form> 
+                </div>
+            </div>
+        </div>
+        <div class="d-flex row mx-auto mt-5">
+            <div class="col-1 d-flex align-items-center">
+                <h3 class="text-center" id="y-axis"></h3>
+            </div>
+            <div class="col-11 bar-chart-container d-flex align-items-end">
+                <canvas id="salesChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+        <div class="d-flex row mt-2">
+            <div class="col-12 d-flex justify-content-center">
+                <h3 class="text-center" id="x-axis"></h3>
+            </div>
+        </div>
+        <script src="./index.js"></script>
+    </body>
+</html>
