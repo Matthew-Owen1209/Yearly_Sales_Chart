@@ -21,11 +21,7 @@ document.getElementById('csv-file').addEventListener('change', function(event) {
 
         // If there's valid data, process and generate the yearly chart
         if (jsonData.length > 0) {
-            const fromDate = new Date(document.getElementById('date-from').value);
-            const endDate = new Date(document.getElementById('date-to').value);
-            const tPeriod = 'yearly'; // Set to yearly for the initial chart display
-            const quantitiesByPeriod = processData(jsonData, fromDate, endDate, tPeriod);
-            generateChart(quantitiesByPeriod);
+            showProduct(); // Initial call to show product sales (yearly view by default)
         } else {
             alert("No valid sales data available for the selected date range.");
         }
@@ -167,8 +163,6 @@ function processData(data, fromDate, endDate, tPeriod) {
 
 // Function to filter data for the clicked month
 function filterDataForMonth(year, month) {
-    const filteredData = {};
-    
     const fromDate = new Date(year, month - 1, 1); // First day of the month
     const toDate = new Date(year, month, 0); // Last day of the month
 
@@ -177,12 +171,7 @@ function filterDataForMonth(year, month) {
     
     // Only update the chart if there's valid data
     if (Object.keys(quantitiesByPeriod).length > 0) {
-        Object.keys(quantitiesByPeriod).forEach(key => {
-            filteredData[key] = quantitiesByPeriod[key]; // Copy filtered data
-        });
-
-        // Generate the chart with the filtered data
-        generateChart(filteredData);
+        generateChart(quantitiesByPeriod);
     }
 }
 
@@ -190,7 +179,7 @@ function filterDataForMonth(year, month) {
 function showProduct() {
     let fromDateVal = new Date(document.getElementById('date-from').value);
     let endDateVal = new Date(document.getElementById('date-to').value);
-    const tPeriod = 'yearly'; // Always show yearly for all years on upload
+    let tPeriod = document.getElementById('time-period').value; // Dynamically get the period
 
     let fromDate;
     let endDate;
@@ -221,15 +210,19 @@ function showProduct() {
         endDate = defaultEndDate; // Use default if no input
     }
 
-    // Process data for the specified time period
+    // Process data for the selected period
     const quantitiesByPeriod = processData(jsonData, fromDate, endDate, tPeriod);
-    
-    // Generate the chart
-    generateChart(quantitiesByPeriod);
 
+    // Generate the chart with the processed data
+    if (Object.keys(quantitiesByPeriod).length > 0) {
+        generateChart(quantitiesByPeriod);
+    } else {
+        alert('No valid sales data available for the selected date range.');
+    }
 }
 
+// Listen for changes in the time period dropdown and update the chart
 document.getElementById('time-period').addEventListener('change', function() {
-    isMonthly = false; // Reset the flag whenever the time period changes
+    isMonthly = false; // Reset the flag when switching between periods
+    showProduct(); // Update the chart when the time period changes
 });
-
